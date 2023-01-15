@@ -20,5 +20,15 @@ async fn main() -> Result<()> {
         .await?;
     let body = response.json::<dto::daily_sleep::DailySleepData>().await?;
     println!("{:?}", body);
+
+    let client = Client::new();
+    let url = "https://api.ouraring.com/v2/usercollection/sleep";
+    let response = client
+        .get(url)
+        .header("Authorization", format!("Bearer {}", oura_token))
+        .send()
+        .await?;
+    let body = response.json::<dto::sleep_periods::SleepPeriodsData>().await?;
+    println!("{:?}", body);
     Ok(())
 }
